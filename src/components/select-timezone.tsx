@@ -60,6 +60,7 @@ export function SelectTimeZone({
     <Combobox by={compareDepartments} onChange={onChange}>
       <div className="relative">
         <Combobox.Input
+          autoComplete="off"
           className="border rounded-md p-2 text-sm shadow-sm cursor-text w-full"
           placeholder="Select timezone.."
           onChange={(event) => {
@@ -70,9 +71,9 @@ export function SelectTimeZone({
             const result = timezones.filter((t) => t.label.toLowerCase().includes(event.target.value));
             if(result.length === 0) {
               handleSearch(event.target.value)
-            } else {
-              setOptions(result);
             }
+
+            setOptions(result);
           }}
           displayValue={(item: SelectedValue) => item.value}
         />
@@ -84,6 +85,8 @@ export function SelectTimeZone({
         static
         className="h-[300px] overflow-y-auto border rounded-md shadow-sm"
       >
+        {options.length === 0 && !loading && <div className="p-2 text-sm text-gray-600 cursor-pointer">No results</div>}
+        {options.length === 0 && loading && <div className="p-2 text-sm text-gray-600 cursor-pointer">Searching...</div>}
         {options.map((option, index) => (
           <Combobox.Option
             key={option.label + index}
