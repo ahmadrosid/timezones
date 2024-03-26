@@ -18,7 +18,6 @@ export default function ClientComponent() {
   const [open, setOpen] = useState(false);
   const [timezones, setTimezones] = useState<string[]>([]);
 
-  // I want the timezones to be synced in local storage
   useEffect(() => {
     const storedTimezones = localStorage.getItem("timezones");
     if (storedTimezones) {
@@ -38,21 +37,22 @@ export default function ClientComponent() {
 
   return (
       <div className="py-6 max-w-2xl mx-auto space-y-4">
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>Add time</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Select timezone</DialogTitle>
-            </DialogHeader>
-
-            <SelectTimeZone onSelect={(value) => {
-              updateTimezones([...timezones, value.value]);
-              setOpen(false)
-            }} />
-          </DialogContent>
-        </Dialog>
+        <div className="text-center">
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button>Add timezones</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Select timezone</DialogTitle>
+              </DialogHeader>
+              <SelectTimeZone onSelect={(value) => {
+                updateTimezones([...timezones, value.value]);
+                setOpen(false)
+              }} />
+            </DialogContent>
+          </Dialog>
+        </div>
 
         <div className="grid gap-3 grid-cols-3">
           <DisplayTime />
