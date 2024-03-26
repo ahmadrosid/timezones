@@ -29,6 +29,9 @@ export function SelectTimeZone({
       options={options}
       isSearchable
       placeholder="Select a timezone"
+      onSearchInputChange={(input: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("search input:", input.target.value)
+      }}
     />
   );
 }
