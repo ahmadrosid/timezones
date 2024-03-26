@@ -1,5 +1,5 @@
-# Mindful Minute
+# Timezones
 
-Get valuable information in a short time.
+Stay synchronized across the globe with multiple time zones
 
-![demo](demo.png)
+![demo](demo1.png)
