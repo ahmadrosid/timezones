@@ -1,13 +1,11 @@
 "use client";
 
-import { ClientOnly } from "@/components/client-only";
 import { DisplayTime } from "@/components/display-time";
 import { SelectTimeZone } from "@/components/select-timezone";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -54,7 +52,7 @@ export default function ClientComponent() {
           </Dialog>
         </div>
 
-        <div className="grid gap-3 grid-cols-3">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
           <DisplayTime />
           {timezones.map((timezone) => (
             <DisplayTime key={timezone} timezone={timezone} onDelete={() => deletTimezone(timezone)} />
