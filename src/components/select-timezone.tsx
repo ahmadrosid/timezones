@@ -68,7 +68,7 @@ export function SelectTimeZone({
               return setOptions(timezones);
             }
 
-            const result = timezones.filter((t) => t.label.toLowerCase().includes(event.target.value));
+            const result = timezones.filter((t) => t.label.toLowerCase().includes(event.target.value.toLowerCase()));
             if(result.length === 0) {
               handleSearch(event.target.value)
             }
