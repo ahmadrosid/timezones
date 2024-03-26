@@ -62,7 +62,18 @@ export function SelectTimeZone({
         <Combobox.Input
           className="border rounded-md p-2 text-sm shadow-sm cursor-text w-full"
           placeholder="Select timezone.."
-          onChange={(event) => handleSearch(event.target.value)}
+          onChange={(event) => {
+            if (event.target.value === "") {
+              return setOptions(timezones);
+            }
+
+            const result = timezones.filter((t) => t.label.toLowerCase().includes(event.target.value));
+            if(result.length === 0) {
+              handleSearch(event.target.value)
+            } else {
+              setOptions(result);
+            }
+          }}
           displayValue={(item: SelectedValue) => item.value}
         />
         <div className="absolute right-2 top-2">
