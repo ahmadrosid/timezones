@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -28,24 +28,31 @@ export function DisplayTime({
   const [time, setTime] = useState("");
   const [selectedTimeZone, setTimezone] = useState(timezone);
 
+  const updateTime = useCallback(() => {
+    const newDate = new Date();
+    if (timezone) {
+      const newDateString = getDateInTimeZone(newDate, timezone);
+      setTime(newDateString);
+    } else {
+      setTime(newDate.toLocaleTimeString());
+    }
+  }, [timezone]);
+
   useEffect(() => {
+    if (time === "") {
+      updateTime();
+    }
+
+    if (!selectedTimeZone) {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      setTimezone(timezone);
+    }
+
     const interval = setInterval(() => {
-      const newDate = new Date();
-
-      if (selectedTimeZone) {
-        const newDateString = getDateInTimeZone(newDate, selectedTimeZone);
-        setTime(newDateString);
-      } else {
-        setTime(newDate.toLocaleTimeString());
-      }
-
-      if (!timezone) {
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        setTimezone(timezone);
-      }
+      updateTime();
     }, 1000);
     return () => clearInterval(interval);
-  }, [selectedTimeZone, timezone]);
+  }, [selectedTimeZone, time, timezone, updateTime]);
 
   if (selectedTimeZone === "") {
     return null;
