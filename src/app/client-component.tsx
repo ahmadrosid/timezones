@@ -24,40 +24,52 @@ export default function ClientComponent() {
   }, []);
 
   const updateTimezones = (timezones: string[]) => {
-    setTimezones(timezones);
-    localStorage.setItem("timezones", JSON.stringify(timezones));
-  }
+    const newTimezones = timezones.filter((timezone, index) => {
+      return timezones.indexOf(timezone) === index;
+    });
+    setTimezones(newTimezones);
+    localStorage.setItem("timezones", JSON.stringify(newTimezones));
+  };
 
   const deletTimezone = (timezone: string) => {
     setTimezones(timezones.filter((t) => t !== timezone));
-    localStorage.setItem("timezones", JSON.stringify(timezones.filter((t) => t !== timezone)));
-  }
+    localStorage.setItem(
+      "timezones",
+      JSON.stringify(timezones.filter((t) => t !== timezone))
+    );
+  };
 
   return (
-      <div className="py-6 max-w-2xl mx-auto space-y-4">
-        <div className="text-center">
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button>Add timezones</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Select timezone</DialogTitle>
-              </DialogHeader>
-              <SelectTimeZone onSelect={(value) => {
+    <div className="py-6 max-w-2xl mx-auto space-y-4">
+      <div className="text-center">
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button>Add timezones</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Select timezone</DialogTitle>
+            </DialogHeader>
+            <SelectTimeZone
+              onSelect={(value) => {
                 updateTimezones([...timezones, value.value]);
-                setOpen(false)
-              }} />
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
-          <DisplayTime />
-          {timezones.map((timezone) => (
-            <DisplayTime key={timezone} timezone={timezone} onDelete={() => deletTimezone(timezone)} />
-          ))}
-        </div>
+                setOpen(false);
+              }}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
+
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
+        <DisplayTime />
+        {timezones.map((timezone) => (
+          <DisplayTime
+            key={timezone}
+            timezone={timezone}
+            onDelete={() => deletTimezone(timezone)}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
