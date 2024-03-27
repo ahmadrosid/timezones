@@ -28,6 +28,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         {children}
+
+        <script defer data-domain="time.ahmadrosid.com" src="https://plausible.kasihkode.com/js/script.js"></script>
       </body>
     </html>
   );
