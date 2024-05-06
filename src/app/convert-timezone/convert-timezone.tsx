@@ -8,14 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -32,6 +30,7 @@ export function ConvertTimezone() {
   const [open, setOpen] = useState(false);
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedMinute, setSelectedMinute] = useState("");
+  const [originTimezone, setOriginTimezone] = useState("");
   const [targetTimezone, setTargetTimezone] = useState("");
 
   return (
@@ -42,19 +41,17 @@ export function ConvertTimezone() {
         </Link>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button>Convert timezones</Button>
+            <Button>Convert Timezone</Button>
           </DialogTrigger>
           <DialogContent className="max-w-[600px]">
             <DialogHeader>
               <DialogTitle>Input timezone</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <label className="py-1.5 text-sm font-semibold">
-                Set time
-              </label>
+              <label className="py-1.5 text-sm font-semibold">Set time</label>
               <div className="flex gap-2">
                 <Select onValueChange={(value) => setSelectedHour(value)}>
-                  <SelectTrigger className="w-[90px]">
+                  <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Hour" />
                   </SelectTrigger>
                   <SelectContent>
@@ -67,7 +64,7 @@ export function ConvertTimezone() {
                 </Select>
 
                 <Select onValueChange={(value) => setSelectedMinute(value)}>
-                  <SelectTrigger className="w-[90px]">
+                  <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Minute" />
                   </SelectTrigger>
                   <SelectContent>
@@ -86,7 +83,7 @@ export function ConvertTimezone() {
                     Origin timezone
                   </label>
                   <SelectTimeZone
-                    onSelect={(value) => setTargetTimezone(value.value)}
+                    onSelect={(value) => setOriginTimezone(value.value)}
                   />
                 </div>
                 <div className="flex flex-col gap-2 w-full">
@@ -100,10 +97,11 @@ export function ConvertTimezone() {
               </div>
 
               <div>
-                From:
-                <span className="bold">{`${selectedHour}:${selectedMinute}`}</span>
-                to
-                <span className="bold">{targetTimezone}</span>
+                {"From "}
+                <span className="bold opacity-65">{originTimezone}</span>
+                {" to "}
+                <span className="bold opacity-65">{targetTimezone}</span>
+                <span className="bold opacity-65 px-4">{`${selectedHour}:${selectedMinute}`}</span>
               </div>
 
               <Button>Convert</Button>
