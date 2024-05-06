@@ -10,9 +10,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function ClientComponent() {
+export function CurrentTimezones() {
   const [open, setOpen] = useState(false);
   const [timezones, setTimezones] = useState<string[]>([]);
 
@@ -41,7 +42,7 @@ export default function ClientComponent() {
 
   return (
     <div className="py-6 max-w-2xl mx-auto space-y-4">
-      <div className="text-center">
+      <div className="text-left space-x-4">
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button>Add timezones</Button>
@@ -51,6 +52,7 @@ export default function ClientComponent() {
               <DialogTitle>Select timezone</DialogTitle>
             </DialogHeader>
             <SelectTimeZone
+              autoOpen
               onSelect={(value) => {
                 updateTimezones([...timezones, value.value]);
                 setOpen(false);
@@ -58,6 +60,9 @@ export default function ClientComponent() {
             />
           </DialogContent>
         </Dialog>
+        <Link href="/convert-timezone">
+            <Button>Convert timezones</Button>
+        </Link>
       </div>
 
       <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">

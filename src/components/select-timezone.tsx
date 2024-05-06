@@ -34,11 +34,14 @@ function compareDepartments(a: SelectedValue, b: SelectedValue) {
 
 export function SelectTimeZone({
   onSelect,
+  autoOpen
 }: {
+  autoOpen?: boolean;
   onSelect: (value: SelectedValue) => void;
 }) {
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState(timezones);
+  const [open, setOpen] = useState(autoOpen);
 
   const handleSearch = useDebouncedCallback(
     (query) => {
@@ -54,12 +57,18 @@ export function SelectTimeZone({
 
   const onChange = (value: SelectedValue) => {
     onSelect(value);
+    setOpen(false);
   };
 
   return (
     <Combobox by={compareDepartments} onChange={onChange}>
       <div className="relative">
         <Combobox.Input
+          onClick={() => {
+            if (!open) {
+              setOpen(true);
+            }
+          }}
           autoComplete="off"
           className="border rounded-md p-2 text-sm shadow-sm cursor-text w-full"
           placeholder="Select timezone.."
@@ -81,9 +90,9 @@ export function SelectTimeZone({
           {loading && (<LoaderCircle className="animate-spin text-blue-800/50" />)}
         </div>
       </div>
-      <Combobox.Options
+      {open && <Combobox.Options
         static
-        className="h-[300px] overflow-y-auto border rounded-md shadow-sm"
+        className="h-[300px] overflow-y-auto border rounded-md shadow-sm my-2"
       >
         {options.length === 0 && !loading && <div className="p-2 text-sm text-gray-600 cursor-pointer">No results</div>}
         {options.length === 0 && loading && <div className="p-2 text-sm text-gray-600 cursor-pointer">Searching...</div>}
@@ -96,7 +105,7 @@ export function SelectTimeZone({
             {option.label}
           </Combobox.Option>
         ))}
-      </Combobox.Options>
+      </Combobox.Options>}
     </Combobox>
   );
 }
