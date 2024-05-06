@@ -39,13 +39,7 @@ export function ConvertTimezone() {
   const [selectedMinute, setSelectedMinute] = useState("");
   const [sourceTimezone, setSourceTimezone] = useState("");
   const [targetTimezone, setTargetTimezone] = useState("");
-  const [data, setData] = useState<ConvertTimezoneItem[]>([
-    {
-      timeStr: '06:40',
-      sourceTimezone: 'Asia/Jakarta',
-      targetTimezone: 'Australia/Sydney',
-    }
-  ]);
+  const [data, setData] = useState<ConvertTimezoneItem[]>([]);
 
   return (
     <div className="py-6 max-w-2xl mx-auto space-y-4">

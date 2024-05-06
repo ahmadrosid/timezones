@@ -24,7 +24,7 @@ function convertTimeZone(data: TimezoneInputInterface) {
     const { timeStr, sourceTimezone, targetTimezone } = data;
   
     const time = parseHour(timeStr);
-    const Current = moment.tz(time, sourceTimezone);
+    const Current = moment.tz(time.toISOString(), sourceTimezone);
     const Target = Current.clone().tz(targetTimezone);
     return Target.format('HH:mm');
   }
@@ -41,8 +41,8 @@ export function DisplayConvertTimezone({
   });
 
   return (
-    <div className="flex">
-      <Card>
+    <div className="flex justify-between gap-2">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>
             <time dateTime={timeStr}>{timeStr}</time>
@@ -53,7 +53,7 @@ export function DisplayConvertTimezone({
       <p className="justify-center flex items-center p-2">
         <ArrowLeftRight />
       </p>
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>
             <time dateTime={targetTimeStr}>{targetTimeStr}</time>
