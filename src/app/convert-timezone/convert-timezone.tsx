@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SelectTimeZone } from "@/components/select-timezone";
+import { DisplayConvertTimezone } from "./display-convert-timezone";
 
 const hourOptions = Array.from({ length: 24 }, (_, i) =>
   i.toString().padStart(2, "0")
@@ -26,12 +27,25 @@ const minuteOptions = Array.from({ length: 60 }, (_, i) =>
   i.toString().padStart(2, "0")
 );
 
+type ConvertTimezoneItem = {
+  timeStr: string;
+  sourceTimezone: string;
+  targetTimezone: string;
+};
+
 export function ConvertTimezone() {
   const [open, setOpen] = useState(false);
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedMinute, setSelectedMinute] = useState("");
-  const [originTimezone, setOriginTimezone] = useState("");
+  const [sourceTimezone, setSourceTimezone] = useState("");
   const [targetTimezone, setTargetTimezone] = useState("");
+  const [data, setData] = useState<ConvertTimezoneItem[]>([
+    {
+      timeStr: '06:40',
+      sourceTimezone: 'Asia/Jakarta',
+      targetTimezone: 'Australia/Sydney',
+    }
+  ]);
 
   return (
     <div className="py-6 max-w-2xl mx-auto space-y-4">
@@ -83,7 +97,7 @@ export function ConvertTimezone() {
                     Origin timezone
                   </label>
                   <SelectTimeZone
-                    onSelect={(value) => setOriginTimezone(value.value)}
+                    onSelect={(value) => setSourceTimezone(value.value)}
                   />
                 </div>
                 <div className="flex flex-col gap-2 w-full">
@@ -96,21 +110,36 @@ export function ConvertTimezone() {
                 </div>
               </div>
 
-              <div>
-                {"From "}
-                <span className="bold opacity-65">{originTimezone}</span>
-                {" to "}
-                <span className="bold opacity-65">{targetTimezone}</span>
-                <span className="bold opacity-65 px-4">{`${selectedHour}:${selectedMinute}`}</span>
-              </div>
-
-              <Button>Convert</Button>
+              <Button
+                onClick={() => {
+                  setOpen(false);
+                  setData((prev) => [
+                    ...prev,
+                    {
+                      timeStr: `${selectedHour}:${selectedMinute}`,
+                      sourceTimezone: sourceTimezone,
+                      targetTimezone: targetTimezone,
+                    },
+                  ]);
+                }}
+              >
+                Convert
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="grid gap-3 grid-cols-1 sm:grid-cols-3"></div>
+      <div className="grid gap-3">
+        {data.map((item) => (
+          <DisplayConvertTimezone
+            key={item.timeStr}
+            timeStr={item.timeStr}
+            sourceTimezone={item.sourceTimezone}
+            targetTimezone={item.targetTimezone}
+          />
+        ))}
+      </div>
     </div>
   );
 }
